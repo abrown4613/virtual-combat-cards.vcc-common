@@ -30,6 +30,12 @@ trait Datum {
     serializePayload(db)
     db.build()
   }
+
+  /**
+   * Attempt to cast the Datum  to a give type.
+   * @param lifter Class to lift the data type
+   */
+  def as[T](lifter: Lifter[T]): T = lifter.getOrFail(this)
 }
 
 object Datum {
@@ -114,6 +120,26 @@ case class ObjectNode(buildName: String, version: Int, fields: List[Datum]) {
     }
     ob
   }
+
+  /**
+   *
+   */
+  def fieldOption(name: String): Option[Datum] = fields.find(_.name == name)
+
+  /**
+   * Extract a give field form the the list
+   */
+  def field(name: String) = fieldOption(name).get
+
+  /**
+   * Find field and lift to a given type
+   */
+  def fieldAs[T](name: String, lifter: Lifter[T]) = field(name).as(lifter)
+
+  /**
+   * Find field and lift to a given type
+   */
+  def fieldOptionAs[T](name: String, lifter: Lifter[T]) = fieldOption(name).map(_.as(lifter))
 }
 
 object ObjectNode {
