@@ -19,7 +19,7 @@ package org.exnebula.vcc.pbon
 import org.exnebula.protobuf.vcc.ObjectNotation
 import com.google.protobuf.GeneratedMessage.GeneratedExtension
 
-trait Datum {
+abstract class Datum {
   val name: String
 
   protected def serializePayload(db: ObjectNotation.Datum.Builder)
@@ -35,7 +35,7 @@ trait Datum {
    * Attempt to cast the Datum  to a give type.
    * @param lifter Class to lift the data type
    */
-  def as[T](lifter: Lifter[T]): T = lifter.getOrFail(this)
+  def as[T](implicit lifter: Lifter[T]): T = lifter.getOrFail(this)
 }
 
 object Datum {
@@ -50,7 +50,7 @@ object Datum {
   class ListExtractor[T](extension: GeneratedExtension[ObjectNotation.Datum, java.util.List[T]], builder: (String, List[T]) => Datum) {
     def unapply(datum: ObjectNotation.Datum): Option[Datum] = {
       if (datum.getExtensionCount(extension) > 0) {
-        val l = for (i <- 0 until datum.getExtensionCount(extension)) yield {
+        val l:Seq[T] = for (i <- 0 until datum.getExtensionCount(extension)) yield {
           datum.getExtension(extension, i)
         }
         Some(builder(datum.getName, l.toList))
@@ -134,12 +134,12 @@ case class ObjectNode(buildName: String, version: Int, fields: List[Datum]) {
   /**
    * Find field and lift to a given type
    */
-  def fieldAs[T](name: String, lifter: Lifter[T]) = field(name).as(lifter)
+  def fieldAs[T](name: String)(implicit lifter: Lifter[T]) = field(name).as(lifter)
 
   /**
    * Find field and lift to a given type
    */
-  def fieldOptionAs[T](name: String, lifter: Lifter[T]) = fieldOption(name).map(_.as(lifter))
+  def fieldOptionAs[T](name: String)(implicit lifter: Lifter[T]) = fieldOption(name).map(_.as(lifter))
 }
 
 object ObjectNode {

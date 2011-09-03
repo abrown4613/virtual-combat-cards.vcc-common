@@ -17,6 +17,7 @@
 package org.exnebula
 
 import vcc.pbon._
+import vcc.pbon.D._
 
 import org.specs2.mutable.SpecificationWithJUnit
 
@@ -31,8 +32,8 @@ class MarshallObjectTest extends SpecificationWithJUnit {
   marshaller.addUnMarshaller[Alpha]("Alpha", 1) {
     on =>
       Alpha(
-        on.field("name").as(D.String),
-        on.fieldOptionAs("id", D.Int).getOrElse(0)
+        on.field("name").as[String],
+        on.fieldOptionAs[Int]("id").getOrElse(0)
       )
   }
 

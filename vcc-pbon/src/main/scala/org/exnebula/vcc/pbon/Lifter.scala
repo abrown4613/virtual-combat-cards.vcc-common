@@ -43,18 +43,18 @@ class Lifter[T](matcher: PartialFunction[Datum, T]) {
  * Base data lifter collection. User to indicate what type of matching is need for each type
  */
 object D {
-  val Int = new Lifter[Int]({
+  implicit val intLifter = new Lifter[Int]({
     case IntDatum(_, v) => v
   })
-  val String = new Lifter[String]({
+  implicit val stringLifter = new Lifter[String]({
     case StringDatum(_, v) => v
   })
 
-  val ObjectNodeList = new Lifter[List[ObjectNode]]({
+  implicit val objectNodeListLifter = new Lifter[List[ObjectNode]]({
     case ObjectData(_, v) => v
   })
 
-  val ObjectNode = new Lifter[ObjectNode]({
+  implicit val objectNodeLifter = new Lifter[ObjectNode]({
     case ObjectDatum(_, v) => v
   })
 }
