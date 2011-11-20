@@ -50,12 +50,12 @@ public class JPromptPanelList extends JPanel {
 
   public void setActivePrompt(int selectedRow) {
     if (activeCellIndex != -1) {
-      cells.get(activeCellIndex).showViewComponent(false);
+      cells.get(activeCellIndex).showViewComponent();
     }
     PromptPanelCell activeCell = cells.get(selectedRow);
 
     activeCellIndex = selectedRow;
-    activeCell.showEditorComponent(true);
+    activeCell.showEditorComponent();
     activeCell.adjustFocusToEditor();
 
     adjustScrollPaneVisibleArea(selectedRow);

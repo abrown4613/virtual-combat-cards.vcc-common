@@ -37,11 +37,11 @@ class SamplePrompt implements PromptPanel {
     setState(state);
   }
 
-  public JComponent getViewComponent(boolean isSelected) {
+  public JComponent getViewComponent() {
     return viewPanel;
   }
 
-  public JComponent getEditorComponent(boolean isSelected) {
+  public JComponent getEditorComponent() {
     return this.editorPanel;
   }
 

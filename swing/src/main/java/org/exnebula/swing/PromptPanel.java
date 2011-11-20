@@ -32,9 +32,9 @@ public interface PromptPanel {
    */
   void setEditCompletionListener(EditCompletionListener listener);
 
-  JComponent getViewComponent(boolean isSelected);
+  JComponent getViewComponent();
 
-  JComponent getEditorComponent(boolean isSelected);
+  JComponent getEditorComponent();
 
   void adjustFocusToEditor();
 

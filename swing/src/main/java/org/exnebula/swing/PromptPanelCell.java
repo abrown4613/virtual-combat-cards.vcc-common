@@ -42,13 +42,13 @@ class PromptPanelCell extends JPanel implements PromptPanel.EditCompletionListen
 
     editViewPanel = new JPanel();
     editViewPanel.setLayout(new CardLayout());
-    editViewPanel.add(promptPanel.getViewComponent(false), "view");
-    editViewPanel.add(promptPanel.getEditorComponent(false), "editor");
+    editViewPanel.add(promptPanel.getViewComponent(), "view");
+    editViewPanel.add(promptPanel.getEditorComponent(), "editor");
 
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     add(cellLabel);
     add(editViewPanel);
-    showViewComponent(false);
+    showViewComponent();
   }
 
   public void setHeight(int height) {
@@ -66,18 +66,18 @@ class PromptPanelCell extends JPanel implements PromptPanel.EditCompletionListen
     return "PromptPanelCell(" + promptPanel.toString() + ")";
   }
 
-  public void showViewComponent(boolean isSelected) {
+  public void showViewComponent() {
     this.setBackground(UIManager.getColor("List.background"));
     this.setBackground(new Color(0xD3, 0xD3, 0xE4));
     ((CardLayout) editViewPanel.getLayout()).show(editViewPanel, "view");
-    promptPanel.getViewComponent(isSelected);
+    promptPanel.getViewComponent();
   }
 
-  public void showEditorComponent(boolean isSelected) {
+  public void showEditorComponent() {
     this.setBackground(UIManager.getColor("List.selectionBackground"));
     cellLabel.setBackground(UIManager.getColor("List.selectionBackground"));
     ((CardLayout) editViewPanel.getLayout()).show(editViewPanel, "editor");
-    promptPanel.getEditorComponent(isSelected);
+    promptPanel.getEditorComponent();
   }
 
   public void adjustFocusToEditor() {
