@@ -49,11 +49,9 @@ public class JPromptPanelList extends JPanel {
   }
 
   public void setActivePrompt(int selectedRow) {
-    if (activeCellIndex != -1) {
-      cells.get(activeCellIndex).showViewComponent();
-    }
-    PromptPanelCell activeCell = cells.get(selectedRow);
+    deactivatePrompt();
 
+    PromptPanelCell activeCell = cells.get(selectedRow);
     activeCellIndex = selectedRow;
     activeCell.showEditorComponent();
     activeCell.adjustFocusToEditor();
@@ -91,6 +89,10 @@ public class JPromptPanelList extends JPanel {
       editListener.editComplete(activeCellIndex);
   }
 
+  public void deactivatePrompt() {
+    if (activeCellIndex != -1)
+      cells.get(activeCellIndex).showViewComponent();
+  }
 
   private JPanel createContentPanel() {
     JPanel panel = new JPanel();

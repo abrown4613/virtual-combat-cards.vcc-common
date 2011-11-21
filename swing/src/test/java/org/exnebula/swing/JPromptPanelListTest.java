@@ -43,9 +43,17 @@ public class JPromptPanelListTest extends UISpecTestCase {
     assertNotNull(getMainWindow().getButton("prompt0-button"));
   }
 
-  public void testWhenSelectLastThenSelectFirst_shouldShowFirst() {
+  public void testSelectingShowEditorForSelected() {
+    getJPromptPanelList().setActivePrompt(2);
+    assertNotNull(getMainWindow().getButton("prompt2-button"));
+  }
+
+  public void testOnceSelectedCanClearActiveField() {
     getJPromptPanelList().setActivePrompt(0);
     assertNotNull(getMainWindow().getButton("prompt0-button"));
+
+    getJPromptPanelList().deactivatePrompt();
+    assertNotNull(findJLabel("prompt0-state"));
   }
 
   public void testOnlyFireEditCompleteIfListenerExists() {
