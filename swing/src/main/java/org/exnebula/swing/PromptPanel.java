@@ -25,6 +25,12 @@ public interface PromptPanel {
   }
 
   /**
+   * Prompt has a valid answer
+   * @return true if the prompt has been answered, false otherwise
+   */
+  boolean hasValidAnswer();
+
+  /**
    * This method is called when the PromptPanel is linked to a JPromptPanelList. It will not be called afterwards,
    * so the PromptPanel must save if it wished to communicate the end of an edit.
    *

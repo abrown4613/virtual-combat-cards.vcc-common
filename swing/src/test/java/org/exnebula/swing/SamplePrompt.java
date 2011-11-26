@@ -62,6 +62,10 @@ class SamplePrompt implements PromptPanel {
     editorPanel.getComponent(0).requestFocus();
   }
 
+  public boolean hasValidAnswer() {
+    return state != 0;
+  }
+
   protected int getState() {
     return state;
   }
@@ -83,13 +87,17 @@ class SamplePrompt implements PromptPanel {
     JButton button = new JButton(new AbstractAction(prefix) {
       public void actionPerformed(ActionEvent e) {
         setState(getState() + 1);
-        if (editCompletionListener != null)
-          editCompletionListener.editComplete();
+        fireEditComplete();
       }
     });
     button.setName(prefix + "-button");
     JCheckBox checkBox = new JCheckBox("Check here");
     return new Component[]{button, checkBox};
+  }
+
+  protected void fireEditComplete() {
+    if (editCompletionListener != null)
+      editCompletionListener.editComplete();
   }
 
   private JPanel createViewPanel(String prefix) {

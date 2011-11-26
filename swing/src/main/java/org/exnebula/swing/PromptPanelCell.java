@@ -83,4 +83,8 @@ class PromptPanelCell extends JPanel implements PromptPanel.EditCompletionListen
   public void adjustFocusToEditor() {
     promptPanel.adjustFocusToEditor();
   }
+
+  public boolean isUnanswered() {
+    return !promptPanel.hasValidAnswer();
+  }
 }

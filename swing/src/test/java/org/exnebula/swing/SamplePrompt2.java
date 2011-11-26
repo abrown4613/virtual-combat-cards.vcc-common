@@ -46,6 +46,7 @@ public class SamplePrompt2 extends SamplePrompt {
     JRadioButton radioButton = new JRadioButton(new AbstractAction("Set state " + i) {
       public void actionPerformed(ActionEvent e) {
         setState(i);
+        fireEditComplete();
       }
     });
     radioButton.setName(prefix + "-radio" + i);

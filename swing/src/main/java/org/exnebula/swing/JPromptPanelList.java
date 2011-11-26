@@ -94,6 +94,14 @@ public class JPromptPanelList extends JPanel {
       cells.get(activeCellIndex).showViewComponent();
   }
 
+  public boolean hasUnansweredPrompts() {
+    for (PromptPanelCell cell : cells) {
+      if(cell.isUnanswered())
+        return true;
+    }
+    return false;
+  }
+
   private JPanel createContentPanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -168,5 +176,26 @@ public class JPromptPanelList extends JPanel {
       suggestedPosition = suggestedPosition - adjustedRowHeight;
     }
     scrollBar.setValue(suggestedPosition);
+  }
+
+  public void setAutoSelectNextUnanswered() {
+    setPromptPanelEditListener(new AutoSelectNextUnanswered());
+  }
+
+  private class AutoSelectNextUnanswered implements PromptPanelEditListener {
+    public void editComplete(int promptIndex) {
+      int index = findUnansweredPromptIndex();
+      if(index == -1)
+        deactivatePrompt();
+      else
+        setActivePrompt(index);
+    }
+
+    private int findUnansweredPromptIndex() {
+      for (PromptPanelCell cell : cells) {
+        if(cell.isUnanswered()) return cells.indexOf(cell);
+      }
+      return -1;
+    }
   }
 }

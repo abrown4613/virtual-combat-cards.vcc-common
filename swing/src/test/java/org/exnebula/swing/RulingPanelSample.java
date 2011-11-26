@@ -21,26 +21,42 @@ import java.awt.*;
 
 public class RulingPanelSample extends JFrame {
 
+  private JPromptPanelList promptPanelList;
+
   public RulingPanelSample(String title) throws HeadlessException {
     super(title);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
-    JPromptPanelList panel = new JPromptPanelList();
-    for (int i = 0; i < 3; i++) {
-      panel.addPromptPanel(new SamplePrompt("prompt" + i));
-    }
+    promptPanelList = createPromptPanel();
+    add(promptPanelList, BorderLayout.CENTER);
+    this.setPreferredSize(new Dimension(300, 240));
+  }
+
+  private JPromptPanelList createPromptPanel() {
+    JPromptPanelList panelList = new JPromptPanelList();
+    addThreeSamplePrompt(panelList);
+    addThreeSamplePrompt2(panelList);
+    panelList.setName("PromptPanel");
+    panelList.setRowHeight(80);
+    panelList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    return panelList;
+  }
+
+  private void addThreeSamplePrompt2(JPromptPanelList panelList) {
     for (int i = 3; i < 6; i++) {
-      panel.addPromptPanel(new SamplePrompt2("prompt" + i));
+      panelList.addPromptPanel(new SamplePrompt2("prompt" + i));
     }
-    panel.setName("PromptPanel");
-    add(panel, BorderLayout.CENTER);
-    panel.setRowHeight(80);
-    panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    this.setPreferredSize(new Dimension(200, 100));
+  }
+
+  private void addThreeSamplePrompt(JPromptPanelList panelList) {
+    for (int i = 0; i < 3; i++) {
+      panelList.addPromptPanel(new SamplePrompt("prompt" + i));
+    }
   }
 
   public static void main(String[] arguments) {
     RulingPanelSample sample = new RulingPanelSample("Sample");
+    sample.promptPanelList.setAutoSelectNextUnanswered();
     sample.pack();
     sample.setVisible(true);
   }

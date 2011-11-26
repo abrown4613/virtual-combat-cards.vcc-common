@@ -111,10 +111,50 @@ public class JPromptPanelListTest extends UISpecTestCase {
     assertNotNull(getMainWindow().getButton("prompt1-button"));
   }
 
+  public void testBeforeAllAnswers_shouldHaveUnansweredPrompts() {
+    final JPromptPanelList promptPanel = getJPromptPanelList();
+    assertTrue(promptPanel.hasUnansweredPrompts());
+  }
+
+  public void testAfterAnsweringAllElementShouldHaveNoUnansweredPrompts() {
+    final JPromptPanelList promptPanel = getJPromptPanelList();
+    setAutoSelectNextUnansweredAndActivePrompt(promptPanel, 0);
+    clickAllThreeButtons();
+    clickAllThreeRadioButtons();
+    assertFalse(promptPanel.hasUnansweredPrompts());
+  }
+
+  public void testWhenSelectingLastButtonPanel_afterAnsweringAllElementShouldHaveNoUnansweredPrompts() {
+    final JPromptPanelList promptPanel = getJPromptPanelList();
+    setAutoSelectNextUnansweredAndActivePrompt(promptPanel, 2);
+    clickAllThreeButtons();
+    clickAllThreeRadioButtons();
+    assertFalse(promptPanel.hasUnansweredPrompts());
+  }
+
+  private void setAutoSelectNextUnansweredAndActivePrompt(JPromptPanelList promptPanel, int firstActivePanel) {
+    promptPanel.setAutoSelectNextUnanswered();
+    promptPanel.setActivePrompt(firstActivePanel);
+  }
+
+  private void clickAllThreeButtons() {
+    for(int i=0; i<3; i++)
+      getMainWindow().getButton().click();
+  }
+
+  private void clickAllThreeRadioButtons() {
+    String radioLabel1 = "Set state 1";
+    for(int i=0; i<3; i++)
+      getMainWindow().getRadioButton(radioLabel1).click();
+  }
+
   private void createAndRegisterPromptPanelEditListener(final JPromptPanelList promptPanel) {
     PromptPanelEditListener ppel = new PromptPanelEditListener() {
       public void editComplete(int promptIndex) {
-        promptPanel.setActivePrompt(promptIndex + 1);
+        if (promptIndex < 5)
+          promptPanel.setActivePrompt(promptIndex + 1);
+        else
+          promptPanel.deactivatePrompt();
       }
     };
     promptPanel.setPromptPanelEditListener(ppel);
