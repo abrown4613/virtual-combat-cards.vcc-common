@@ -13,6 +13,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>exnebula</id>
+            <uniqueVersion>true</uniqueVersion>
+            <name>ExNebula.org</name>
+            <url>scp://petra.exnebula.org:222/var/repo</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -39,6 +48,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+            </extension>
+        </extensions>
     </build>
 
 </project>
