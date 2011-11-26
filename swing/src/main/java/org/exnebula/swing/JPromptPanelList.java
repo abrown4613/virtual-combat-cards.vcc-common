@@ -33,6 +33,7 @@ public class JPromptPanelList extends JPanel {
   private static final String actionMapSelectNext = "JPromptPanelList.SelectNext";
   private PromptPanelEditListener editListener;
   private final int gapBetweenCells = 5;
+  private PromptPanelEditListener autoSelection = null;
 
   public JPromptPanelList() {
     super(new GridLayout(1, 1));
@@ -87,6 +88,8 @@ public class JPromptPanelList extends JPanel {
   void fireEditComplete() {
     if (editListener != null)
       editListener.editComplete(activeCellIndex);
+    if (autoSelection != null)
+      autoSelection.editComplete(activeCellIndex);
   }
 
   public void deactivatePrompt() {
@@ -179,7 +182,7 @@ public class JPromptPanelList extends JPanel {
   }
 
   public void setAutoSelectNextUnanswered() {
-    setPromptPanelEditListener(new AutoSelectNextUnanswered());
+    autoSelection = new AutoSelectNextUnanswered();
   }
 
   private class AutoSelectNextUnanswered implements PromptPanelEditListener {

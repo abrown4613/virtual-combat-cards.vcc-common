@@ -132,19 +132,42 @@ public class JPromptPanelListTest extends UISpecTestCase {
     assertFalse(promptPanel.hasUnansweredPrompts());
   }
 
+  private class Counter implements PromptPanelEditListener {
+    private int count = 0;
+
+    public void editComplete(int promptIndex) {
+      count++;
+    }
+
+    public int getCount() {
+      return count;
+    }
+  }
+
+  public void testAutoAdvanceWorksWithAdditionalListener() {
+    final JPromptPanelList promptPanel = getJPromptPanelList();
+    Counter counter = new Counter();
+    setAutoSelectNextUnansweredAndActivePrompt(promptPanel, 2);
+    promptPanel.setPromptPanelEditListener(counter);
+    clickAllThreeButtons();
+    clickAllThreeRadioButtons();
+    assertFalse(promptPanel.hasUnansweredPrompts());
+    assertEquals(6,counter.getCount());
+  }
+
   private void setAutoSelectNextUnansweredAndActivePrompt(JPromptPanelList promptPanel, int firstActivePanel) {
     promptPanel.setAutoSelectNextUnanswered();
     promptPanel.setActivePrompt(firstActivePanel);
   }
 
   private void clickAllThreeButtons() {
-    for(int i=0; i<3; i++)
+    for (int i = 0; i < 3; i++)
       getMainWindow().getButton().click();
   }
 
   private void clickAllThreeRadioButtons() {
     String radioLabel1 = "Set state 1";
-    for(int i=0; i<3; i++)
+    for (int i = 0; i < 3; i++)
       getMainWindow().getRadioButton(radioLabel1).click();
   }
 
