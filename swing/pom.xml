@@ -6,7 +6,7 @@
 
     <groupId>org.exnebula</groupId>
     <artifactId>swing</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <description>Swing extensions and components</description>
 
     <properties>
